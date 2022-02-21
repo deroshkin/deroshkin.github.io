@@ -1,0 +1,51 @@
+<html>
+<script>
+    function makePicture() {
+        const mod = document.getElementById('mod').value;
+        const mult = document.getElementById('mult').value;
+
+        const canvas = document.getElementById('myCanvas');
+        const context = canvas.getContext('2d');
+
+        canvas.width = document.getElementById('canvasWrapper').getBoundingClientRect()['width'];
+        canvas.height = document.getElementById('canvasWrapper').getBoundingClientRect()['height'];
+
+        context.clearRect(0, 0, canvas.width, canvas.height);
+
+        const radius = Math.min(canvas.width, canvas.height) / 2;
+
+        //console.log(radius);
+        //console.log(canvas.width);
+        //console.log(canvas.height);
+
+        context.beginPath();
+        context.arc(canvas.width / 2, canvas.height / 2, radius, 0, 2 * Math.PI);
+        context.stroke()
+        for (let i = 0; i < mod; i++) {
+            context.beginPath();
+            context.moveTo(canvas.width/2 + Math.sin(i*2*Math.PI/mod)*radius, canvas.height/2 - Math.cos(i*2*Math.PI/mod)*radius);
+            context.lineTo(canvas.width/2 + Math.sin(mult*i*2*Math.PI/mod)*radius, canvas.height/2 - Math.cos(mult*i*2*Math.PI/mod)*radius);
+            context.stroke();
+            context.beginPath();
+            context.arc(canvas.width/2 + Math.sin(i*2*Math.PI/mod)*radius, canvas.height/2 - Math.cos(i*2*Math.PI/mod)*radius, 2, 0, 2*Math.PI);
+            context.fill();
+        }
+    }
+</script>
+
+<body>
+    <div>
+        <form>
+            <label for="mod">Modulus</label>
+            <input type="number" id="mod" name="mod" value="9">
+            <label for="mult">Multiplier</label>
+            <input type="number" id="mult" name="mult" value="2">
+            <input type="button" value="Draw" onclick="makePicture()">
+        </form>
+    </div>
+    <div id="canvasWrapper" style="width:90vw; height:90vh">
+        <canvas id="myCanvas"></canvas>
+    </div>
+</body>
+
+</html>
